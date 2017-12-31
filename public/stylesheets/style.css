@@ -1,6 +1,10 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #2BC0E4;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #EAECC6, #2BC0E4);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #EAECC6, #2BC0E4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  text-shadow: -2px 1px 8px white;
 }
 
 a {
@@ -8,7 +12,9 @@ a {
 }
 
 .full {
-  border: 1px solid #2c96cf;
+  border: 1px solid #ffffff;
+  box-shadow: 4px 0px 20px 5px #ffffff54;
+  background: white;
 }
 
 .bar {
