@@ -1,11 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/skeleton.css' />
+  <link rel='stylesheet' href='/stylesheets/normalize.css' />
+  <script src="/javascripts/dateutil.js" type="module"></script>
+</head>
+
+<body>
+
+  <div class="row">
+    <div class="three columns sidebar">
+      <input type="text" id="message" placeholder="message">
+    </div>
+    <div class="nine columns tmain">
+
+      <h1 class="header">Time to Impact (ESTIMATED)</h1>
+
+
+      <div class="full">
+        <div id="bar" class="bar"></div>
+      </div>
+
+      <h2 id="watch"></h2>
+
+    </div>
+  </div>
+
+
+</body>
+
 </html>
