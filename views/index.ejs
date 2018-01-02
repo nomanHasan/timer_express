@@ -8,6 +8,7 @@
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link rel='stylesheet' href='/stylesheets/skeleton.css' />
   <link rel='stylesheet' href='/stylesheets/normalize.css' />
+  <script src="/javascripts/socket.io.js"></script>
   <script src="/javascripts/dateutil.js" type="module"></script>
 </head>
 
@@ -15,7 +16,10 @@
 
   <div class="row">
     <div class="three columns sidebar">
-      <input type="text" id="message" placeholder="message">
+      <div id="messagesContainer">
+
+      </div>
+      <input type="text" id="message" placeholder="Say Something !">
     </div>
     <div class="nine columns tmain">
 
@@ -33,5 +37,48 @@
 
 
 </body>
+
+<script>
+
+  var messages =  <%- messages %>;
+  // messages = messages.map(m => m.message)
+  console.log(messages.length);
+
+  var socket = io();
+
+  var send = (message) => socket.emit('message', `${message}`);
+
+
+  var textbox = document.querySelector('#message');
+  var messagesContainer = document.querySelector('#messagesContainer');
+
+
+  textbox.onkeypress = function (event) {
+    switch (event.key) {
+      case "Enter":
+        send(event.target.value);
+        textbox.value = "";
+        break;
+    }
+  }
+
+
+  socket.on('message', function (message) {
+    console.log(message);
+    messages.push(message);
+    populateSidebar(messages);
+  })
+
+  const populateSidebar = (messages) => {
+
+    const msgs = messages.map(m => `<li title="${m.remote_address}" id="chat_message">${m.message}</li>`).join("")
+
+    messagesContainer.innerHTML = msgs;
+  }
+
+
+  populateSidebar(messages);
+
+</script>
 
 </html>

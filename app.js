@@ -4,11 +4,25 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-var index = require('./routes/index');
-var users = require('./routes/users');
+var socekt_io = require('socket.io');
 
 var app = express();
+
+
+//Socket IO
+
+var io = socekt_io();
+app.io = io;
+
+
+var index = require('./routes/index')(io);
+var users = require('./routes/users');
+
+var mongoose = require('mongoose')
+mongoose.connect('mongodb://127.0.0.1:27017/timer_express', { useMongoClient: true})
+.then(()=> { console.log(`Succesfully Connected to the Mongodb Database  at URL : mongodb://127.0.0.1:27017/timer_express`)})
+.catch(()=> { console.log(`Error Connecting to the Mongodb Database at URL : mongodb://127.0.0.1:27017/timer_express`)})
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

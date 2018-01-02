@@ -1,9 +1,37 @@
-var express = require('express');
-var router = express.Router();
+var Message = require('../models/message.model')
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+module.exports = function (io) {
+  var app = require('express');
+  var router = app.Router();
 
-module.exports = router;
+  /* GET home page. */
+  router.get('/', async function (req, res, next) {
+    let messages = await Message.find();
+    // messages = ["HI!", "EVERYODY!"];
+    res.render('index', { title: 'Express', messages: JSON.stringify(messages) });
+  });
+
+  io.on('connection', async function (socket) {
+    console.log('a user connected', socket.request.connection.remoteAddress);
+    socket.on('message', async function(message){
+
+      var newMessage  = new Message({
+        message: message,
+        remote_address: socket.request.connection.remoteAddress,
+        date: new Date()
+      })
+
+      await newMessage.save();
+
+      io.emit('message', {message, remote_address: socket.request.connection.remoteAddress})
+
+    });
+
+
+    socket.on('disconnect', function(){
+      console.log('user disconnected');
+    });
+  });
+
+  return router;
+}
