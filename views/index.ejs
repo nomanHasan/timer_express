@@ -12,14 +12,57 @@
   <script src="/javascripts/dateutil.js" type="module"></script>
 </head>
 
+
+<script>
+
+const formatDate = date => {
+    date = new Date(date)
+    let time = toAMPM(date); 
+    return `${month_names_short[date.getMonth()]} ${date.getDate()}, ${time.hours}:${time.minutes} ${time.ampm}`
+  }
+
+
+  const month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const month_names_short = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+
+  const toAMPM = date => {
+    console.log(date)
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    let seconds = date.getSeconds();
+    return {
+      hours,
+      minutes,
+      seconds,
+      ampm
+    }
+  }
+
+</script>
+
 <body>
 
   <div class="row">
     <div class="three columns sidebar">
+
+      <div class="profile-bar">
+        <input type="text" id="name" placeholder="Name">
+        <button class="button-primary" id="name-button" >Anonymous</button>
+      </div>
+
       <div id="messagesContainer">
 
       </div>
-      <input type="text" id="message" placeholder="Say Something !">
+
+      <div class="chat-input">
+          <input type="text" id="message" placeholder="Say Something !">
+      </div>
+
     </div>
     <div class="nine columns tmain">
 
@@ -41,30 +84,59 @@
 <script>
 
   var messages =  <%- messages %>;
+  var author = localStorage.getItem('author') ? localStorage.getItem('author') : 'Anonymous';
+  console.log(author, localStorage.getItem('author'))
   // messages = messages.map(m => m.message)
   console.log(messages.length);
 
-  var socket = io();
+  var audio = document.createElement('audio')
+  audio.src = "/sounds/notification.mp3"
 
-  var send = (message) => socket.emit('message', `${message}`);
+  var socket = io();
+  var send = (message) => socket.emit('message', message);
 
 
   var textbox = document.querySelector('#message');
   var messagesContainer = document.querySelector('#messagesContainer');
+  var nameInput = document.querySelector('input#name');
+  var nameButton = document.querySelector('#name-button');
 
+  nameButton.innerHTML = author;
+
+  nameButton.onclick  = function(event){
+    nameInput.style.display = 'initial';
+    nameInput.value = author;
+    nameButton.style.display = 'none';
+  }
 
   textbox.onkeypress = function (event) {
     switch (event.key) {
       case "Enter":
-        send(event.target.value);
+        send({
+          content: event.target.value,
+          author
+        });
         textbox.value = "";
+        break;
+    }
+  }
+
+  nameInput.onkeypress = function(event){
+    switch (event.key) {
+      case "Enter":
+        author = event.target.value;
+        nameInput.style.display = 'none';
+        nameButton.style.display = 'initial';
+        localStorage.setItem('author', author);
+        textbox.value = "";
+        nameButton.innerHTML = author;
         break;
     }
   }
 
 
   socket.on('message', function (message) {
-    console.log(message);
+    audio.play();
     messages.push(message);
     populateSidebar(messages);
   })
@@ -75,13 +147,26 @@
 
   const populateSidebar = (messages) => {
 
-    const msgs = messages.map(m => `<li title="${m.remote_address}" class="chat_message">${m.message}</li>`).join("")
+    const msgs = messages.map(m => 
+    `
+    <div class="message_block">
+      <div class="message_author">${m.author}</div>
+      <div class="message_time">${formatDate(m.date)}</div>
+      <div title="${m.author}:${m.remote_address}" class="message_content">${m.content}</div>
+    </div>
+    `
+    ).join("")
 
     messagesContainer.innerHTML = msgs;
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
   }
 
 
   populateSidebar(messages);
+
+  
+
+
 
 </script>
 

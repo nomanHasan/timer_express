@@ -20,16 +20,18 @@ module.exports = function (io) {
     console.log('a user connected', socket.request.connection.remoteAddress);
 
     socket.on('message', async function(message){
-
+      console.log(message)
+      let date = new Date();
       var newMessage  = new Message({
-        message: message,
+        author: message.author,
+        content: message.content,
         remote_address: socket.request.connection.remoteAddress,
-        date: new Date()
+        date: date
       })
-
+      console.log(newMessage);
       await newMessage.save();
 
-      io.emit('message', {message, remote_address: socket.request.connection.remoteAddress})
+      io.emit('message', newMessage );
 
     });
 

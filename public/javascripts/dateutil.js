@@ -42,3 +42,5 @@ setInterval(() => {
     watch.innerHTML = `${time.totalHours} Hours ${time.minutes} Minutes ${time.seconds} Seconds Remaining !`
     bar.style.width = `${getPercentage(startDate, endDate, now)}%`
 }, 1)
+
+

@@ -3,8 +3,9 @@ var mongoosePaginate = require('mongoose-paginate')
 
 
 var MessageSchema = new mongoose.Schema({
+    author: String,
     remote_address: String,
-    message: String,
+    content: String,
     date: Date,
 })
 

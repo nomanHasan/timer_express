@@ -43,6 +43,27 @@ a {
   }
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+
 .header{
   text-align: center;
   font-size: 2rem;
@@ -70,9 +91,16 @@ a {
 .tmain{
   margin-top: calc(100vh - 50% )
 }
+
+.chat-input{
+  width: 100%;
+  margin-top: calc(100vh - 120px );
+}
+
 input#message{
   width:100%;
-  margin-top: calc(100vh - 120px );
+  text-align: center;
+  margin: 10px;
 }
 
 #messagesContainer{
@@ -83,7 +111,7 @@ input#message{
   word-wrap: break-word;
 }
 
-.chat_message{
+.message_content{
   list-style: none;
   background: #ffb347;
   background: -webkit-linear-gradient(to right, #ffcc33, #ffb347);
@@ -91,4 +119,28 @@ input#message{
   padding: 10px;
   font-size: 1.7rem;
   border-radius: 10px;
+}
+
+.message_author{
+  display: inline;
+}
+
+.message_time{
+  /* display: inline; */
+  float: right;
+  font-family: Perpetua,Baskerville,"Big Caslon","Palatino Linotype",Palatino,"URW Palladio L","Nimbus Roman No9 L",serif;
+}
+
+
+.profile-bar{
+  position: absolute;
+  margin-top: -35px;
+  width: inherit;
+  text-align: center;
+}
+input#name{
+  margin-top: -13px;
+  width: 100%;
+  text-align: center;
+  display: none;
 }
