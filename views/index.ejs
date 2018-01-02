@@ -69,9 +69,13 @@
     populateSidebar(messages);
   })
 
+  socket.on('reload', function(data){
+    location.reload();
+  })
+
   const populateSidebar = (messages) => {
 
-    const msgs = messages.map(m => `<li title="${m.remote_address}" id="chat_message">${m.message}</li>`).join("")
+    const msgs = messages.map(m => `<li title="${m.remote_address}" class="chat_message">${m.message}</li>`).join("")
 
     messagesContainer.innerHTML = msgs;
   }

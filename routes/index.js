@@ -8,11 +8,17 @@ module.exports = function (io) {
   router.get('/', async function (req, res, next) {
     let messages = await Message.find();
     // messages = ["HI!", "EVERYODY!"];
-    res.render('index', { title: 'Express', messages: JSON.stringify(messages) });
+    res.render('index', { title: 'Timer Express', messages: JSON.stringify(messages) });
+  });
+
+  router.get('/update', async function (req, res, next) {
+    io.emit('reload', 'Software Updated')
+    res.send("UPDATED");
   });
 
   io.on('connection', async function (socket) {
     console.log('a user connected', socket.request.connection.remoteAddress);
+
     socket.on('message', async function(message){
 
       var newMessage  = new Message({

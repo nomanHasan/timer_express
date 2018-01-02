@@ -79,6 +79,16 @@ input#message{
   overflow: auto;
   height: calc(100vh - 120px );
   position: absolute;
-  width: 24%;
+  width: 22%;
   word-wrap: break-word;
+}
+
+.chat_message{
+  list-style: none;
+  background: #ffb347;
+  background: -webkit-linear-gradient(to right, #ffcc33, #ffb347);
+  background: linear-gradient(to right, #ffcc33, #ffb347);
+  padding: 10px;
+  font-size: 1.7rem;
+  border-radius: 10px;
 }
