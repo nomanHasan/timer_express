@@ -15,12 +15,13 @@
 
 <script>
 
-const formatDate = date => {
-    date = new Date(date)
-    let time = toAMPM(date); 
-    return `${month_names_short[date.getMonth()]} ${date.getDate()}, ${time.hours}:${time.minutes} ${time.ampm}`
-  }
+  var title = "Timer Express";
 
+    const formatDate = date => {
+      date = new Date(date)
+      let time = toAMPM(date);
+      return `${month_names_short[date.getMonth()]} ${date.getDate()}, ${time.hours}:${time.minutes} ${time.ampm}`
+    }
 
   const month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const month_names_short = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -42,6 +43,8 @@ const formatDate = date => {
       ampm
     }
   }
+
+  const ucount = (messages)=> { let revs = messages.slice().reverse(); let i = 0; let count = 0; let found = false; revs.forEach(m => {if(m.author != author){i ++ }else if(!found){count = i; found= true }}); return count}
 
 </script>
 
@@ -99,9 +102,18 @@ const formatDate = date => {
   var textbox = document.querySelector('#message');
   var messagesContainer = document.querySelector('#messagesContainer');
   var nameInput = document.querySelector('input#name');
+  var titleElement = document.querySelector('title');
   var nameButton = document.querySelector('#name-button');
 
   nameButton.innerHTML = author;
+
+
+  console.log(titleElement)
+
+  const updateTitle = t => {
+    if(t <=0)return;
+    titleElement.innerHTML = `${title} (${t})`;
+  }
 
   nameButton.onclick  = function(event){
     nameInput.style.display = 'initial';
@@ -134,10 +146,12 @@ const formatDate = date => {
     }
   }
 
+  
 
   socket.on('message', function (message) {
     audio.play();
     messages.push(message);
+    updateTitle(ucount(messages));
     populateSidebar(messages);
   })
 

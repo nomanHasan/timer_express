@@ -6,6 +6,7 @@ var MessageSchema = new mongoose.Schema({
     author: String,
     remote_address: String,
     content: String,
+    message: String,
     date: Date,
 })
 

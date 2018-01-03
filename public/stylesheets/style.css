@@ -50,12 +50,13 @@ a {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #e08900;; 
+  
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #20a7d4;; 
 }
 
 /* Handle on hover */
@@ -109,6 +110,7 @@ input#message{
   position: absolute;
   width: 22%;
   word-wrap: break-word;
+  padding-right: 5px;
 }
 
 .message_content{

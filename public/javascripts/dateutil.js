@@ -1,5 +1,5 @@
 const endDate = new Date('6 Jan, 2018');
-const startDate = new Date('25 Dec, 2017');
+const startDate = new Date('1 Jan, 2017');
 let now = new Date();
 
 const getPercentage = (startDate, endDate, now) => {

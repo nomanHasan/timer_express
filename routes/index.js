@@ -8,6 +8,17 @@ module.exports = function (io) {
   router.get('/', async function (req, res, next) {
     let messages = await Message.find();
     // messages = ["HI!", "EVERYODY!"];
+
+    // messages = messages.map(async message => {
+    //   console.log(message)
+    //   message.content = message.message;
+    //   message.author = 'Anonymous';
+      
+    //   await message.save();
+    // });
+
+    
+
     res.render('index', { title: 'Timer Express', messages: JSON.stringify(messages) });
   });
 
@@ -20,7 +31,7 @@ module.exports = function (io) {
     console.log('a user connected', socket.request.connection.remoteAddress);
 
     socket.on('message', async function(message){
-      console.log(message)
+      // console.log(message)
       let date = new Date();
       var newMessage  = new Message({
         author: message.author,
@@ -28,7 +39,7 @@ module.exports = function (io) {
         remote_address: socket.request.connection.remoteAddress,
         date: date
       })
-      console.log(newMessage);
+      // console.log(newMessage);
       await newMessage.save();
 
       io.emit('message', newMessage );
